@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <div class="hero__main">
+            <h2 class="hero__heading header__logo-link">
+                Food<span class="header__logo-span">Tube</span>
+            </h2>
+            <p class="hero__main-descr">Загружайте видео приготовления всеми любимых блюд. Делитесь авторскими рецептами</p>
+        </div>
+    </div>
+</section>
+<section class="slider">
+    <div class="container">
+        <!-- <h2 class="slider__head head">Категории:</h2> -->
+        <div class="slider__food">
+           <div class="slider__main-wrapper">
+            {% for c in cats %}
+                <div class="slider__main-item">
+                    <a href="{% url 'dishes_cats' pk=c.pk %}" class="slider__text link">{{c.title}}</a>
+                    {% if c.pic %}
+                    <img src="{{c.pic.url}}" alt="Фото категории" class="slider__img">
+                    {% endif %}
+                </div>
+            {% endfor %}
+           </div>
+        </div>
+    </div>
+</section>
+    
+{% endblock content %}
+    

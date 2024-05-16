@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+    Все рецепты
+{% endblock title %}
+    
+
+{% block content %}
+
+<section class="all">
+    <div class="container">
+        <div class="all__filter-block">
+            <form class="all__filter-form" enctype="multipart/form-data" method="get">
+                {% csrf_token %}
+                <input type="text" name="title" id="id_title" class="all__filter-input" placeholder="Введите название блюда: например Цезарь">
+                <button type="submit" class="all__form-btn btn">
+                    <svg class="all__form-svg" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                        <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/>
+                    </svg>
+                </button>
+            </form>
+        </div>
+        {% if dishes %}
+        <ul class="all__list list">
+            {% for d in dishes %}
+            <li class="all_list-item">
+                <div class="all__list-main">
+                    {% if d.photo %}
+                    <div class="all__list-main-photo">
+                        <img src="{{d.get_upload_url}}" alt="{{d.title}}" class="all__list-photo-img">
+                    </div>
+                    {% endif %}
+                    <div class="all__list-main-title">
+                        <a href="{% url 'detail_i' pk=d.pk %}" class="all__list-main-link link">{{d.title}}</a>
+                    </div>
+                    <div class="all__list-date">
+                        {% if d.user.profile.avatar %}
+                        <div class="all__list-date-user">
+                            <img src="{{d.user.profile.get_upload_url}}" alt="" class="all__list-date-user-pic">
+                        </div>
+                        {% else %}
+                        <div class="all__list-date-username">
+                            <span class="all__list-date-user-span">{{d.user.first_name}}</span>
+                        </div>
+                        {% endif %}
+                        <div class="all__list-date-day">
+                            <span class="all__list-date-span">{{d.created}}</span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% if page_obj.has_other_pages %}
+        <div class="dish_pag">
+            {% if page_obj.has_previous %}
+            <a href="?page={{page_obj.previous_page_number}}" class="dish__pag-prev link perv">
+                <svg class="dish__pag-prev-svg" xmlns="http://www.w3.org/2000/svg" height="16" viewBox="0 -960 960 960" width="16">
+                    <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/>
+                </svg>
+            </a>
+            {% endif %}
+            {% for p in paginator.page_range  %}
+            {% if page_obj.number == p %}
+                <p class="dish__text">{{p}}</p>
+            {% elif p >= page_obj.number|add:-1 and p <= page_obj.number|add:1 %}
+                <a href="?page={{p}}" class="dash__pag-link link">{{p}}</a>
+            {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+            <a href="?page={{page_obj.next_page_number}}" class="dish__pag-prev link">
+                <svg class="dish__pag-prev-svg" xmlns="http://www.w3.org/2000/svg" height="16" viewBox="0 -960 960 960" width="16">
+                    <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
+                </svg>
+            </a>
+            {% endif %}
+        </div>
+        {% endif %} 
+    </div>
+</section>
+{% endblock content %}
+    

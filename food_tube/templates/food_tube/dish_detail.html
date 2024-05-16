@@ -1,0 +1,142 @@
+{% extends 'food_tube/index.html' %}
+{% load static %}
+
+
+{% block title %}
+    {{dishes_info.title}}
+{% endblock title %}
+    
+
+{% block content %}
+<section class="dish_info">
+    <div class="container">
+        <div class="dish_info-main">
+            <div class="dish_info-main-all">
+                <h2 class="dish_info__heading">{{dishes_info.title}}</h2>
+                {% if dishes_info.video %}
+                <div class="dish_info__video">
+                    <video class="dish_info-video-play" preload="metadata" controls controlsList="nodownload">
+                        <source src="{{dishes_info.video.url}}">
+                        <p>Ваш браузер не поддерживает это видео</p>
+                    </video>
+                    
+                    <div class="dish_info__comm-and-like">
+                        <div class="dish_info__likes">
+                            <form action="" method="post" class="dish_info-like-form">
+                                {% csrf_token %}
+                                {% if request.user.is_authenticated %}
+                                <button type="submit" name="like" class="dish_info-like-form-btn btn" id="like-btn">
+                                    <svg class="dish_info-like-form-svg {% if user_likes %}liked{% endif %}" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                                        <path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Z"/>
+                                    </svg>
+                                </button>
+                                {% else %}
+                                <button type="submit" name="like" class="dish_info-like-form-btn btn" id="like-btn" disabled>
+                                    <svg class="dish_info-like-form-svg {% if user_likes %}liked{% endif %}" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                                        <path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Z"/>
+                                    </svg>
+                                </button>
+                                {% endif %}
+                                <div class="dish_info__likes-count">
+                                    <span class="dish_info__likes-count-span">
+                                        {{dishes_info.like_count}}
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="dish_info__comments">
+                            <a href="#comment-content" class="dish_info__comments-btn link" id="comment-btn">
+                                <svg class="dish_info__comments-svg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                                    <path d="M880-80 720-240H160q-33 0-56.5-23.5T80-320v-480q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v720ZM160-320h594l46 45v-525H160v480Zm0 0v-480 480Z"/>
+                                </svg>
+                            </a>
+                            <div class="dish_info__comments-counts">
+                                {% with comments.count as t_comments %}
+                                <span class="dish_info__comments-span">{{t_comments}}</span>
+                                {% endwith %}
+                            </div>
+                        </div>
+                    </div>
+                    {% if dishes_info.descr %}
+                    <div class="dish_info-desc-block" id="len">
+                        <p class="dish_info__description-text">
+                            {{dishes_info.descr_len}}
+                        </p>
+                        <a href="#all" class="dish_info-desc-btn link" id="open">Смотреть все</a>
+                    </div>
+                    <div class="dish_info-desc-block-all" id="all">
+                        <p class="dish_info__description-text-all">
+                            {{dishes_info.descr}}
+                        </p>
+                        <button type="button" class="dish_info-desc-btn btn" id="close">Свернуть</button>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+                <div class="dish_info__comment" id="comment-content">
+                    <div class="dish_info__comment-block">
+                        {% if dishes_info.text.all %}
+                        <ul class="dish_info__comment-list list">
+                            {% for comment in dishes_info.text.all %}
+                            <li class="dish_info__comment-list-item">
+                                <p class="dish_info__comment-list-author">
+                                    {{comment.author.first_name}}
+                                </p>
+                                <div class="dish_info__comment-list-text">
+                                    <p class="dish_info__comment-list-text-item">
+                                        {{comment.comment}}
+                                    </p>
+                                </div>
+                                <span class="dish_info__comment-list-created">
+                                    {{comment.created}}
+                                </span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        <p class="dish_info__not-comment">Пока нет ни одного комментария</p>
+                        {% endif %}
+                    </div>
+                    {% if request.user.is_authenticated %}
+                    <form method="post" class="dish_info__comment-form">
+                        {% csrf_token %}
+                        <div class="dish_info__comment-form-input">
+                            <input name="comment_text" class="dish_info__comment-textarea" placeholder="Введите комментарий">
+                            <button type="submit" class="dish_info__comment-btn btn">
+                                <svg class="dish_info__comment-btn-svg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                                    <path d="M120-160v-640l760 320-760 320Zm80-120 474-200-474-200v140l240 60-240 60v140Zm0 0v-400 400Z"/>
+                                </svg>
+                             </button>
+                        </div>
+                      </form>
+                    {% else %}
+                    <p class="dish_info-no-coment">Комментарии могут оставлять только зарегистрированные пользователи</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% if related_video %}
+            <div class="dish_info-main-related">
+                <ul class="dish_info-list list">
+                    {% for r in related_video  %}
+                    <li class="dish_info-list-item">
+                        <a href="{% url 'detail_i' pk=r.pk %}" class="dish_info-list-item-link link">{{r.title}}</a>
+                        {% if r.video %}
+                        <a href="{% url 'detail_i' pk=r.pk %}" class="link">
+                            <video src="{{r.video.url}}" preload="metadata" autoplay loop class="dish_info-list-item-video" muted>
+                                <source src="{{r.video}}" type="mp4">
+                            </video>
+                        </a>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+        
+    </div>
+</section>
+
+    
+{% endblock content %}
+    

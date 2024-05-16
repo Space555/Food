@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="descriptions" content="Самые вкусные рецепты блюд">
+    <title>{% block title %}FoodTube{% endblock title %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/styles/choices.min.css"/>
+    <link rel="stylesheet" href="{% static 'ft/css/style.css' %}">
+</head>
+<body>
+{% block header %}
+<header class="header">
+    <div class="container">
+        <div class="header__main">
+            <div class="header__logo-block">
+                <a href="/" class="header__logo-link link">Food<span class="header__logo-span">Tube</span></a>
+            </div>
+            <nav class="header__nav">
+                <a href="/" class="header__nav-link link">Главная</a>
+                <a href="{% url 'dishes' %}" class="header__nav-link link">Рецепты</a>
+                <a href="{% url 'categories' %}" class="header__nav-link link">Категории</a>
+            </nav>
+            <div class="header__profile-block">
+                {% if request.user.is_authenticated %}
+                <a href="{% url 'profile' pk=request.user.pk %}" class="header__profile-link link">{{request.user.first_name}}!</a>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button class="header__profile-link btn">
+                        <svg class="header__profile-svg" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
+                            <path d="M232.256-168.04q-25.046 0-42.612-17.566-17.566-17.565-17.566-42.703v-499.344q0-25.137 17.566-42.703 17.566-17.566 42.612-17.566h248.936v47.96H232.347q-4.616 0-8.462 3.847-3.847 3.846-3.847 8.462v499.344q0 4.616 3.847 8.463 3.846 3.846 8.462 3.846h248.845v47.96H232.256Zm424.168-178.539-35.422-32.653 74.769-74.769H390.269v-47.96h305.502l-74.769-74.769 35.422-32.845 131.498 131.498-131.498 131.498Z"/>
+                        </svg>
+                    </button>
+                </form>
+                {% else %}
+                <button class="header__profile-btn btn" id="btn-dpw">
+                    <svg class="header__profile-svg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                        <path d="M234-276q51-39 114-61.5T480-360q69 0 132 22.5T726-276q35-41 54.5-93T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 59 19.5 111t54.5 93Zm246-164q-59 0-99.5-40.5T340-580q0-59 40.5-99.5T480-720q59 0 99.5 40.5T620-580q0 59-40.5 99.5T480-440Zm0 360q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q53 0 100-15.5t86-44.5q-39-29-86-44.5T480-280q-53 0-100 15.5T294-220q39 29 86 44.5T480-160Zm0-360q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm0-60Zm0 360Z"/>
+                    </svg>
+                </button>
+                <div class="header__profile-dp" id="block-dpw">
+                    <a href="{% url 'login' %}" class="header__profile-link-login link">Войти</a>
+                    <a href="{% url 'register' %}" class="header__profile-link-login link">Регистрация</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock header %}
+   
+{% block content %}{% endblock content %}
+
+   
+{% block footer %}
+<footer class="footer">
+    <div class="container">
+        <div class="footer__logo">
+            <a href="/" class="footer__logo-link link">FoodTube</a>
+        </div>
+    </div>
+</footer>
+{% endblock footer %}
+   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>
+   <script src="{% static 'ft/js/slick.min.js' %}"></script>
+   <script src="{% static 'ft/js/index.js' %}"></script>
+</body>
+</html

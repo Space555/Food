@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+   Вход
+{% endblock title %}
+
+
+{% block header %}
+<header class="header">
+    <div class="container">
+        <div class="header__main">
+            <div class="header__logo-block">
+                <a href="/" class="header__logo-link link">Food<span class="header__logo-span">Tube</span></a>
+            </div>
+        </div>
+    </div>
+</header>   
+{% endblock header %}
+
+
+{% block content %}
+<section class="entrance">
+    <div class="container">
+        <div class="entrance__main">
+            <div class="entrance__main-form">
+                <form action="" method="post" enctype="multipart/form-data" class="entrance__form">
+                    {% csrf_token %}
+                    {% if form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                    <div class="form-error">
+                        <span class="form-error-span">
+                            {{error}}
+                        </span>
+                    </div>
+                   {% endfor %}
+                   {% endif %}
+                    <input type="text" name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="150" required="" id="id_username" class="entrance__form-input" placeholder="E-mail">
+                    <input type="password" name="password" autocomplete="current-password" required="" id="id_password" class="entrance__form-input" placeholder="Пароль">
+                    <div class="entrance__form-btn-block">
+                        <button type="submit" class="entrance__form-btn btn">Войти</button>
+                        <a href="{% url 'password_reset' %}" class="entrance__form-link link">Забыли пароль?</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>    
+{% endblock content %}
+    

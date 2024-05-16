@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+{% block content %}
+
+<section class="cats">
+    <div class="container">
+        {% if dishes_c %}
+        <ul class="cats__list list">
+            {% for d in dishes_c %}
+            <li class="cats__list-item">
+                <div class="cats__list-main">
+                    <div class="cats__list-user-block">
+                        <div class="cats__list-user">
+                            {% if d.user.profile.avatar %}
+                            <div class="cats__list-user-avatar">
+                                <img src="{{d.user.profile.avatar.url}}" alt="" class="cats__list-user-avatar-img">
+                            </div>
+                            {% endif %}
+                            <div class="cats__list-user-username">
+                                <a class="cats__list-user-usename-link link" href="#">{{d.user.first_name}}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cats__list-main-block">
+                        {% if d.photo %}
+                        <div class="cats__list-main-img">
+                            <img src="{{d.get_upload_url}}" alt="" class="cats__list-main-photo">
+                        </div>
+                        {% endif %}
+                        <a href="{% url 'detail_i' pk=d.pk %}" class="cats__list-main-link link">{{d.title}}</a>
+                        <!-- <p class="cats__list-main-descr">{{d.descr_len}}</p> -->
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        
+        {% else %}
+        <p class="cats_not">В этой категории пока нет рецептов</p>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock content %}
+    
