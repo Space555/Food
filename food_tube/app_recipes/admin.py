@@ -25,5 +25,10 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields = 'id', 'title'
 
 
+class CommentsAdmin(admin.ModelAdmin):
+    list_display = 'id', 'dish_id', 'author', 'comment', 'created'
+
+
 admin.site.register(Dishes, DishesAdmin)
 admin.site.register(Category, CategoryAdmin)
+admin.site.register(Comments, CommentsAdmin)

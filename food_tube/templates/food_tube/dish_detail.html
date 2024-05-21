@@ -101,7 +101,7 @@
                     <form method="post" class="dish_info__comment-form">
                         {% csrf_token %}
                         <div class="dish_info__comment-form-input">
-                            <input name="comment_text" class="dish_info__comment-textarea" placeholder="Введите комментарий">
+                            <input name="comment_text" class="dish_info__comment-textarea" placeholder="Введите комментарий" required>
                             <button type="submit" class="dish_info__comment-btn btn">
                                 <svg class="dish_info__comment-btn-svg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
                                     <path d="M120-160v-640l760 320-760 320Zm80-120 474-200-474-200v140l240 60-240 60v140Zm0 0v-400 400Z"/>
@@ -114,6 +114,7 @@
                     {% endif %}
                 </div>
             </div>
+            <h2 class="dish_info-related-head">Похожие видео:</h2>
             {% if related_video %}
             <div class="dish_info-main-related">
                 <ul class="dish_info-list list">

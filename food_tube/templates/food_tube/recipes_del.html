@@ -1,0 +1,20 @@
+{% extends 'food_tube/index.html' %}
+
+
+{% block title %}
+    Удаление блюда
+{% endblock title %}
+
+
+{% block content %}
+<section class="del">
+    <div class="container">
+        <form action="{% url 'del_dish' pk=object.pk %}" class="del__form" method="post">
+            {% csrf_token %}
+            <button type="submit">Удалить</button>
+        </form>
+    </div>
+</section>
+{% endblock content %}
+    
+    

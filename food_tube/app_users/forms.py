@@ -8,10 +8,10 @@ class RegisterForm(UserCreationForm):
                                                                                     'class': 'register-input'}))
     password1 = forms.CharField(required=True, label='',
                                 widget=forms.PasswordInput(attrs={'placeholder': 'Введите пароль *',
-                                                                  'class': 'register-input'}))
+                                                                  'class': 'register-input pass1'}))
     password2 = forms.CharField(required=True, label='',
                                 widget=forms.PasswordInput(attrs={'placeholder': 'Повторите пароль *',
-                                                                  'class': 'register-input'}))
+                                                                  'class': 'register-input pass2'}))
 
     first_name = forms.CharField(required=True, label='', widget=forms.TextInput(attrs={'placeholder': 'Имя *',
                                                                                         'class': 'register-input'}))

@@ -8,6 +8,7 @@
     <title>{% block title %}FoodTube{% endblock title %}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/styles/choices.min.css"/>
     <link rel="stylesheet" href="{% static 'ft/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'ft/css/media.css' %}">
 </head>
 <body>
 {% block header %}
@@ -17,7 +18,7 @@
             <div class="header__logo-block">
                 <a href="/" class="header__logo-link link">Food<span class="header__logo-span">Tube</span></a>
             </div>
-            <nav class="header__nav">
+            <nav class="header__nav" id="nav">
                 <a href="/" class="header__nav-link link">Главная</a>
                 <a href="{% url 'dishes' %}" class="header__nav-link link">Рецепты</a>
                 <a href="{% url 'categories' %}" class="header__nav-link link">Категории</a>
@@ -45,6 +46,13 @@
                 </div>
                 {% endif %}
             </div>
+        </div>
+        <div class="header__burger">
+            <button class="header__burger-btn btn" id="burger">
+                <span class="header__burger-btn-span"></span>
+                <span class="header__burger-btn-span"></span>
+                <span class="header__burger-btn-span"></span>
+            </button>
         </div>
     </div>
 </header>

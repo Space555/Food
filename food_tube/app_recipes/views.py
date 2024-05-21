@@ -3,7 +3,7 @@ from django.contrib.auth.views import LogoutView
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
-from django.views.generic import ListView, TemplateView, DetailView, CreateView
+from django.views.generic import ListView, TemplateView, DetailView, CreateView, DeleteView
 from app_recipes.models import Category, Dishes, Comments
 from app_recipes.forms import DishesForm, StepsForm, CommentForm
 from app_users.models import Profile
@@ -116,3 +116,22 @@ class RecipesAdd(CreateView):
 
     def get_success_url(self):
         return reverse('profile', kwargs={'pk': self.request.user.pk})
+
+
+class DishDel(DeleteView):
+    model = Dishes
+    template_name = 'food_tube/recipes_del.html'
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        profile = Profile.objects.get(user=self.request.user)
+        profile.dish_count -= 1
+        profile.save()
+        return super().post(request, *args, **kwargs)
+
+    def get_success_url(self):
+        project = self.get_object()
+        profile_id = self.request.user.id
+        return reverse_lazy('profile', kwargs={'pk': profile_id})
+
